@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    environment:
+    - POSTGRES_DB=postgres
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=postgres
+  index:
+    image: opendatacube/wms:0.8.1
+    environment:
+      # database
+      - DB_HOSTNAME=postgres
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_DATABASE=postgres
+      - DB_PORT=5432
+      # index
+      - WMS_CONFIG_PATH="/opt/config/wms/wms.cfg"
+      - PRODUCT_URLS=https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/mangrove/mangrove.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/fc/ls8_fc_albers.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/wofs/wofs_albers.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/geomedian-au/geomedian_nbart_annual.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/wofs/wofs_summary.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/wofs/wofs_filtered_summary.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/ls8-bare-earth/landsat8_barest_earth_albers.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/nrt/sentinel/products.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/mstp/multi_scale_topographic_position.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/weathering_intensity/weathering_intensity.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/nidem/nidem.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/hltc/hltc.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/item/item.yaml
+      - DC_S3_INDEX_BUCKET=dea-public-data
+      - DC_S3_INDEX_PREFIX="geomedian-australia/v2.1.0/ L2/sentinel-2-nrt/S2MSIARD/"
+      - DC_S3_INDEX_SUFFIX=".yaml"
+      # AWS Configuration will be read from the local env var
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_DEFAULT_REGION=ap-southeast-2
+    env_file:
+    - aws.env
+    depends_on:
+      - postgres
+    command: bash -c "cd index; ./create-index.sh"
+    volumes:
+      - ./config:/opt/config/wms

@@ -1,0 +1,13 @@
+https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/mangrove/mangrove.yaml
+https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/fc/ls8_fc_albers.yaml
+https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/wofs/wofs_albers.yaml
+https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/geomedian-au/geomedian_nbart_annual.yaml
+https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/wofs/wofs_summary.yaml
+https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/wofs/wofs_filtered_summary.yaml
+https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/ls8-bare-earth/landsat8_barest_earth_albers.yaml
+https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/prod/products/nrt/sentinel/products.yaml
+https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/mstp/multi_scale_topographic_position.yaml
+https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/weathering_intensity/weathering_intensity.yaml
+https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/nidem/nidem.yaml
+https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/hltc/hltc.yaml
+https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/item/item.yaml

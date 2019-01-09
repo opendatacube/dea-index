@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  postgres:
+    image: opendatacube/dea-index:template
+
+  wms:
+    image: opendatacube/wms:latest
+    environment:
+      - DATACUBE_CONFIG_PATH=/opt/odc/datacube.conf
+      - DB_HOSTNAME=postgres
+      - DB_USERNAME=ows
+      - DB_PASSWORD=ows
+      - DB_DATABASE=postgres
+      # This needs to be the IP or Hostname of your system. It's used by nginx-proxy
+      - VIRTUAL_HOST=localhost,127.0.0.
+    ports:
+      - "8000:8000"
+    command: gunicorn -b '0.0.0.0:8000' -w 5 --timeout 300 datacube_wms.wsgi
+
+  # Use nginx proxy, because Gunicorn doesn't like being public facing
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
