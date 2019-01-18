@@ -2,16 +2,23 @@ version: '3'
 
 services:
   postgres:
-    image: opendatacube/dea-index:template
+    image: opendatacube/dea-index:latest
+    ports:
+      - "8001:5432"
+    entrypoint: docker-entrypoint.sh
+    volumes:
+      - ./docker-entrypoint.sh:/usr/local/bin/
+    command:  postgres
 
   wms:
     image: opendatacube/wms:latest
     environment:
       - DATACUBE_CONFIG_PATH=/opt/odc/datacube.conf
       - DB_HOSTNAME=postgres
-      - DB_USERNAME=ows
-      - DB_PASSWORD=ows
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
       - DB_DATABASE=postgres
+      - DB_PORT=5432
       # This needs to be the IP or Hostname of your system. It's used by nginx-proxy
       - VIRTUAL_HOST=localhost,127.0.0.
     ports:

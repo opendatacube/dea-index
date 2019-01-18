@@ -19,11 +19,12 @@ services:
       # index
       - WMS_CONFIG_PATH=/opt/config/wms/wms_cfg.py
       - WMS_CONFIG_URL="https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/services/wms/ows/wms_cfg.py"
+      #- PRODUCT_URLS=https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/geomedian-au/geomedian_nbart_annual.yaml
       - PRODUCT_URLS=https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/hltc/hltc.yaml
       - DC_S3_INDEX_BUCKET=dea-public-data
       - DC_S3_INDEX_PREFIX=hltc
       - DC_S3_INDEX_SUFFIX=.yaml
-      - DC_RANGES_PRODUCT=high_tide_comp_20p
+      - DC_RANGES_PRODUCT=high_tide_comp_20p low_tide_comp_20p
       # AWS Configuration will be read from the local env var
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
