@@ -4,10 +4,10 @@ services:
   postgres:
     image: opendatacube/dea-index:latest
     ports:
-      - "8001:5432"
+      - "5432:5432"
     entrypoint: docker-entrypoint.sh
     volumes:
-      - ./docker-entrypoint.sh:/usr/local/bin/
+      - ./docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
     command:  postgres
 
   wms:
@@ -24,7 +24,8 @@ services:
     ports:
       - "8000:8000"
     command: gunicorn -b '0.0.0.0:8000' -w 5 --timeout 300 datacube_wms.wsgi
-
+    depends_on:
+      - postgres
   # Use nginx proxy, because Gunicorn doesn't like being public facing
   nginx-proxy:
     image: jwilder/nginx-proxy

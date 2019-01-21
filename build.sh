@@ -18,8 +18,8 @@ docker-compose up -d
 until docker logs docker_index_1 | grep -m 1 "Updating range for:  low_tide_comp_20p"; do sleep 10; done
 
 # Save the image with built database
-#docker stop docker_postgres_1
-docker commit docker_index_1 opendatacube/dea-index:$(date +%Y-%m-%d)
+docker stop docker_postgres_1
+docker commit docker_postgres_1 opendatacube/dea-index:$(date +%Y-%m-%d)
 docker tag opendatacube/dea-index:$(date +%Y-%m-%d) opendatacube/dea-index:latest
 
 # test it out 
