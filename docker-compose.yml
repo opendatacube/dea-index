@@ -3,9 +3,10 @@ version: '3'
 services:
   postgres:
     image: opendatacube/dea-index:latest
-    ports:
-      - "5432:5432"
+    #ports:
+    #  - "5432:5432"
     entrypoint: docker-entrypoint.sh
+    #entrypoint: postgres
     volumes:
       - ./docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
     command:  postgres
@@ -14,6 +15,7 @@ services:
     image: opendatacube/wms:latest
     environment:
       - DATACUBE_CONFIG_PATH=/opt/odc/datacube.conf
+      - PGDATA=/var/lib/postgresql/data2
       - DB_HOSTNAME=postgres
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres

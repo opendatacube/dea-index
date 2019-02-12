@@ -7,6 +7,9 @@ services:
     - POSTGRES_DB=postgres
     - POSTGRES_USER=postgres
     - POSTGRES_PASSWORD=postgres
+    - PGDATA=/var/lib/postgresql/data2
+    #volumes:
+      #- /var/lib/postgresql/data
   index:
     image: opendatacube/wms:latest
     environment:
