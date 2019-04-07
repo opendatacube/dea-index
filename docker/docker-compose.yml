@@ -7,8 +7,11 @@ services:
     - POSTGRES_DB=postgres
     - POSTGRES_USER=postgres
     - POSTGRES_PASSWORD=postgres
+    - PGDATA=/var/lib/postgresql/data2
+    #volumes:
+      #- /var/lib/postgresql/data
   index:
-    image: opendatacube/wms:0.8.1
+    image: opendatacube/wms:latest
     environment:
       # database
       - DB_HOSTNAME=postgres
@@ -17,17 +20,21 @@ services:
       - DB_DATABASE=postgres
       - DB_PORT=5432
       # index
-      - WMS_CONFIG_PATH="/opt/config/wms/wms.cfg"
-      - PRODUCT_URLS=https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/mangrove/mangrove.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/fc/ls8_fc_albers.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/wofs/wofs_albers.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/geomedian-au/geomedian_nbart_annual.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/wofs/wofs_summary.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/wofs/wofs_filtered_summary.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/ls8-bare-earth/landsat8_barest_earth_albers.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/nrt/sentinel/products.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/mstp/multi_scale_topographic_position.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/weathering_intensity/weathering_intensity.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/nidem/nidem.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/hltc/hltc.yaml https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/item/item.yaml
+      - WMS_CONFIG_PATH=/opt/config/wms/wms_cfg.py
+      - WMS_CONFIG_URL="https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/services/wms/ows/wms_cfg.py"
+      #- PRODUCT_URLS=https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/geomedian-au/geomedian_nbart_annual.yaml
+      - PRODUCT_URLS=https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/hltc/hltc.yaml
       - DC_S3_INDEX_BUCKET=dea-public-data
-      - DC_S3_INDEX_PREFIX="geomedian-australia/v2.1.0/ L2/sentinel-2-nrt/S2MSIARD/"
-      - DC_S3_INDEX_SUFFIX=".yaml"
+      - DC_S3_INDEX_PREFIX=hltc
+      - DC_S3_INDEX_SUFFIX=.yaml
+      - DC_RANGES_PRODUCT=high_tide_comp_20p low_tide_comp_20p
       # AWS Configuration will be read from the local env var
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
       - AWS_DEFAULT_REGION=ap-southeast-2
-    env_file:
-    - aws.env
+      - AWS_METADATA_SERVICE_TIMEOUT=60
+      - AWS_METADATA_SERVICE_NUM_ATTEMPTS=30
+
     depends_on:
       - postgres
     command: bash -c "cd index; ./create-index.sh"

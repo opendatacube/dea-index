@@ -2,22 +2,32 @@ version: '3'
 
 services:
   postgres:
-    image: opendatacube/dea-index:template
+    image: opendatacube/dea-index:latest
+    #ports:
+    #  - "5432:5432"
+    entrypoint: docker-entrypoint.sh
+    #entrypoint: postgres
+    volumes:
+      - ./docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
+    command:  postgres
 
   wms:
     image: opendatacube/wms:latest
     environment:
       - DATACUBE_CONFIG_PATH=/opt/odc/datacube.conf
+      - PGDATA=/var/lib/postgresql/data2
       - DB_HOSTNAME=postgres
-      - DB_USERNAME=ows
-      - DB_PASSWORD=ows
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
       - DB_DATABASE=postgres
+      - DB_PORT=5432
       # This needs to be the IP or Hostname of your system. It's used by nginx-proxy
       - VIRTUAL_HOST=localhost,127.0.0.
     ports:
       - "8000:8000"
     command: gunicorn -b '0.0.0.0:8000' -w 5 --timeout 300 datacube_wms.wsgi
-
+    depends_on:
+      - postgres
   # Use nginx proxy, because Gunicorn doesn't like being public facing
   nginx-proxy:
     image: jwilder/nginx-proxy
