@@ -1,0 +1,32 @@
+file:
+  /opt/odc/datacube.conf:
+    exists: false
+    contains: []
+  /usr/local/bin/docker-entrypoint.sh:
+    exists: true
+    mode: "0775"
+    size: 5463
+    owner: root
+    group: root
+    filetype: file
+    contains: []
+port:
+  tcp:5432:
+    listening: true
+    ip:
+    - 0.0.0.0
+command:
+  postgres:
+    exit-status: 1
+    stdout: []
+    stderr:
+    - '"root" execution of the PostgreSQL server is not permitted.'
+    - The server must be started under an unprivileged user ID to prevent
+    - possible system security compromise.  See the documentation for
+    - more information on how to properly start the server.
+    timeout: 10000
+  psql -U postgres -d postgres -p 5432:
+    exit-status: 0
+    stdout: []
+    stderr: []
+    timeout: 10000
