@@ -11,7 +11,7 @@ services:
     #volumes:
       #- /var/lib/postgresql/data
   index:
-    image: opendatacube/wms:latest
+    image: opendatacube/datacube-index:latest
     environment:
       # database
       - DB_HOSTNAME=postgres
@@ -19,15 +19,19 @@ services:
       - DB_PASSWORD=postgres
       - DB_DATABASE=postgres
       - DB_PORT=5432
+      - DB_ROLE=postgres
       # index
       - WMS_CONFIG_PATH=/opt/config/wms/wms_cfg.py
       - WMS_CONFIG_URL="https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/services/wms/ows/wms_cfg.py"
       #- PRODUCT_URLS=https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/geomedian-au/geomedian_nbart_annual.yaml
-      - PRODUCT_URLS=https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/hltc/hltc.yaml
+      - PRODUCT_URLS=https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/master/dev/products/bare-earth/summary/product-definition.yaml
       - DC_S3_INDEX_BUCKET=dea-public-data
-      - DC_S3_INDEX_PREFIX=hltc
+      - DC_S3_INDEX_PREFIX=bare-earth/summary/v2.1.1/L8/*/*/*.yaml
       - DC_S3_INDEX_SUFFIX=.yaml
-      - DC_RANGES_PRODUCT=high_tide_comp_20p low_tide_comp_20p
+      - DC_INDEX_YAML_SAFETY=SAFE
+      #- DC_RANGES_PRODUCT=high_tide_comp_20p low_tide_comp_20p ls8_barest_earth_albers
+      - DC_IGNORE_LINEAGE=TRUE
+      - DC_INDEX_PROTOCOL=s3
       # AWS Configuration will be read from the local env var
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
