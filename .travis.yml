@@ -17,6 +17,7 @@ jobs:
       script:
         - export TAG="0.1.$TRAVIS_BUILD_NUMBER"
         - bash build.sh
+        - docker tag opendatacube/dea-index:latest opendatacube/dea-index:$TAG
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker push --disable-content-trust=true opendatacube/dea-index:$TAG
-        - docker push --disable-content-trust=true opendatacube/dea-index:latest
+        - docker push opendatacube/dea-index:$TAG
+        - docker push opendatacube/dea-index:latest
