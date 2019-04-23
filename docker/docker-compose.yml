@@ -3,6 +3,7 @@ version: '3'
 services:
   postgres:
     image: postgres
+    container_name: docker_postgres
     environment:
     - POSTGRES_DB=postgres
     - POSTGRES_USER=postgres
@@ -12,6 +13,7 @@ services:
       #- /var/lib/postgresql/data
   index:
     image: opendatacube/datacube-index:latest
+    container_name: docker_index
     environment:
       # database
       - DB_HOSTNAME=postgres
