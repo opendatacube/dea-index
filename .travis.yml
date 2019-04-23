@@ -1,0 +1,22 @@
+dist: xenial
+sudo: required # Use the new travis docker based infrastructure
+services:
+  - docker
+language: python
+python:
+  # We don't use the travis python, but we will use it for the build matrix
+  - "3.6"
+jobs:
+  include:
+    - stage: test
+      script:
+        - bash build.sh
+        - bash test.sh
+    - stage: build
+      if: (branch = master OR (tag = branch)) AND type = push
+      script:
+        - export TAG="0.1.$TRAVIS_BUILD_NUMBER"
+        - bash build.sh
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker push --disable-content-trust=true opendatacube/dea-index:$TAG
+        - docker push --disable-content-trust=true opendatacube/dea-index:latest
