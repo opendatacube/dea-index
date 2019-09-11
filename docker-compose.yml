@@ -31,9 +31,3 @@ services:
     depends_on:
       - postgres
   # Use nginx proxy, because Gunicorn doesn't like being public facing
-  nginx-proxy:
-    image: jwilder/nginx-proxy
-    ports:
-      - "80:80"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
