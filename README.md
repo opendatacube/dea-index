@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/opendatacube/dea-index.svg?branch=master)](https://travis-ci.org/opendatacube/dea-index)
+
 DEA-INDEX
 ==========
 This docker is pre-loaded with dea products for example:
